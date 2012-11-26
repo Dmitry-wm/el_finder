@@ -336,6 +336,8 @@ module ElFinder
         @response[:error] = 'Access Denied'
       end
     end # of read
+    
+    alias _download _read
 
     #
     def _edit
