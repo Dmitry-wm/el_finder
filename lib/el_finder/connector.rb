@@ -11,7 +11,7 @@ module ElFinder
 
     # Valid commands to run.
     # @see #run
-    VALID_COMMANDS = %w[archive duplicate edit extract mkdir mkfile open paste ping read rename resize rm tmb upload download]
+    VALID_COMMANDS = %w[archive duplicate edit extract mkdir mkfile open paste ping read rename resize rm tmb upload file]
 
     # Default options for instances.
     # @see #initialize
@@ -337,7 +337,7 @@ module ElFinder
       end
     end # of read
     
-    alias _download _read
+    alias _file _read
 
     #
     def _edit
