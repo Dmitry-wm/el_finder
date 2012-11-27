@@ -81,9 +81,10 @@ module ElFinder
       else
         invalid_request
       end
-
-      @response.delete(:errorData) if @response[:errorData].empty?
-
+      if @response.is_a? Hash
+        @response.delete(:errorData) if @response[:errorData].empty?
+        @response = @response.to_json
+      end
       return @headers, @response
     end # of run
 
@@ -337,7 +338,18 @@ module ElFinder
       end
     end # of read
     
-    alias _file _read
+    def _file
+      if perms_for(@target)[:read] == true
+        @headers = {  "Content-Type" => mime_handler.for(@target),
+                      "Content-Disposition" => "attachment; filename = '#{@target.basename.to_s}'",
+                      "Content-Location:" => @target.to_s,
+                      "Content-Transfer-Encoding" => 'binary'
+                    }
+        @response = File.open(@target, "rb").read
+      else
+        @response[:error] = 'Access Denied'
+      end
+    end
 
     #
     def _edit
